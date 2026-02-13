@@ -2,100 +2,297 @@
 <html>
 <head>
 <title>Deva ❤️ Dorothy</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💖</text></svg>">
+
 <style>
-body {
+body{
   margin:0;
-  font-family: Arial;
+  font-family:'Segoe UI',sans-serif;
   text-align:center;
-  background:black;
+  background: linear-gradient(135deg,#ff9ac9,#ff5fa2);
   color:white;
+  overflow-x:hidden;
 }
 
-button {
+h1{ margin-top:40px; font-size:42px; }
+
+button{
   padding:15px 30px;
-  font-size:20px;
-  margin:10px;
-  cursor:pointer;
+  margin:15px;
+  font-size:22px;
   border:none;
-  border-radius:10px;
+  border-radius:30px;
+  cursor:pointer;
+  transition:0.3s;
 }
 
-#yesBtn {
-  font-size:28px;
-  background:red;
+#yesBtn{
+  background:#ff0066;
   color:white;
+  font-size:30px;
 }
 
-#noBtn {
-  font-size:12px;
-  background:gray;
+#noBtn{
+  background:#ffffff55;
+  color:white;
+  position:relative;
 }
 
-.hidden { display:none; }
+.hidden{ display:none; }
+.section{ margin-top:40px; }
 
-img {
-  width:300px;
-  border-radius:15px;
-  margin:10px;
+video{
+  width:100%;
+  max-width:320px;   /* Slightly smaller */
+  aspect-ratio: 9 / 16;  /* Perfect vertical */
+  object-fit: cover;
+  display:block;
+  margin:20px auto;
+  border-radius:30px;
+  box-shadow:0 0 35px rgba(255,0,102,0.7);
+}
+
+
+.heart{
+  position:fixed;
+  top:-10px;
+  animation: fall linear infinite;
+}
+
+@keyframes fall{
+  to{ transform:translateY(100vh); }
+}
+
+.firework{
+  position:fixed;
+  width:10px;
+  height:10px;
+  border-radius:50%;
+  animation: explode 1s ease-out forwards;
+}
+
+@keyframes explode{
+  to{
+    transform:translateY(-200px) scale(3);
+    opacity:0;
+  }
+}
+
+.download-btn{
+  background:#ff0066;
+  color:white;
+  padding:15px 25px;
+  text-decoration:none;
+  border-radius:25px;
+  font-size:18px;
+  display:inline-block;
+  margin-top:20px;
 }
 </style>
-</head>
 
+</head>
 <body>
 
+<!-- Background Music -->
+<audio id="bgMusic" src="bg-music.mp3" loop></audio>
+
 <h1>❤️ Dorothy ❤️</h1>
-<h2>If you love me?</h2>
+<h2>If you truly love me?</h2>
 
-<button id="yesBtn" onclick="showMain()">YES</button>
-<button id="noBtn" onmouseover="moveNo()">NO</button>
+<button id="yesBtn" onclick="startLove()">YES 💖</button>
+<button id="noBtn"
+        onmouseenter="escapeNo()"
+        onclick="return false;">
+  NO 😏
+</button>
+<div id="main" class="hidden section">
 
-<div id="main" class="hidden">
-
-<h2>💍 Engaged on January 26, 2026 💍</h2>
+<h2>💍 Officially Engaged – January 26, 2026 💍</h2>
 <p>From Pallavaram Railway Station to Forever...</p>
 
 <button onclick="gift1()">🎁 Gift 1</button>
-<button onclick="gift2()">🎵 Gift 2</button>
-<button onclick="gift3()">📸 Gift 3</button>
+<button onclick="gift2()">🌹 Gift 2</button>
+<button onclick="gift3()">🎬 Gift 3</button>
 
-<div id="content"></div>
+<div id="content" class="section"></div>
 
 </div>
 
 <script>
-function moveNo(){
-  document.getElementById("noBtn").style.position="absolute";
-  document.getElementById("noBtn").style.top=Math.random()*400+"px";
-  document.getElementById("noBtn").style.left=Math.random()*400+"px";
+function escapeNo(){
+
+  let no = document.getElementById("noBtn");
+  let yes = document.getElementById("yesBtn");
+
+  // Random position inside screen (avoid edges)
+  let maxX = window.innerWidth - 200;
+  let maxY = window.innerHeight - 100;
+
+  no.style.position = "fixed";
+  no.style.left = Math.random() * maxX + "px";
+  no.style.top = Math.random() * maxY + "px";
+
+  // Increase YES size
+  let size = parseInt(window.getComputedStyle(yes).fontSize);
+  yes.style.fontSize = (size + 8) + "px";
+
+  // Add glowing effect
+  yes.style.boxShadow = "0 0 30px #ff0066";
+
+  // Add more hearts
+  let count = yes.getAttribute("data-hearts") || 1;
+  count = parseInt(count) + 1;
+  yes.setAttribute("data-hearts", count);
+
+  yes.innerHTML = "YES " + "💖".repeat(count);
 }
 
-function showMain(){
+/* Floating Hearts */
+setInterval(()=>{
+  const heart=document.createElement("div");
+  heart.classList.add("heart");
+  heart.innerHTML="💖";
+  heart.style.left=Math.random()*100+"vw";
+  heart.style.animationDuration=Math.random()*3+3+"s";
+  heart.style.fontSize="20px";
+  document.body.appendChild(heart);
+  setTimeout(()=>{heart.remove()},6000);
+},300);
+
+/* YES grows when NO hover */
+function growYes(){
+  let yes = document.getElementById("yesBtn");
+
+  // Increase size
+  let size = parseInt(window.getComputedStyle(yes).fontSize);
+  yes.style.fontSize = (size + 6) + "px";
+
+  // Change text with more hearts
+  let currentHearts = yes.getAttribute("data-hearts") || 1;
+  currentHearts = parseInt(currentHearts) + 1;
+
+  yes.setAttribute("data-hearts", currentHearts);
+
+  let hearts = "💖".repeat(currentHearts);
+  yes.innerHTML = "YES " + hearts;
+}
+
+
+/* Start Love Mode */
+function startLove(){
+
+  // Hide NO button completely
+  document.getElementById("noBtn").style.display = "none";
+
+  // Show main section
   document.getElementById("main").classList.remove("hidden");
+
+  // Play music
+  document.getElementById("bgMusic").play();
+
+  // Fireworks
+  for(let i=0;i<30;i++){
+    let fire=document.createElement("div");
+    fire.classList.add("firework");
+    fire.style.left=Math.random()*100+"vw";
+    fire.style.top="80vh";
+    fire.style.background="hsl("+Math.random()*360+",100%,60%)";
+    document.body.appendChild(fire);
+    setTimeout(()=>{fire.remove()},1000);
+  }
 }
 
+/* Gift 1 */
 function gift1(){
-  document.getElementById("content").innerHTML =
-  "<h3>Your Love Letter Here</h3><p>Paste your 3 paragraphs here...</p>";
+
+  document.getElementById("bgMusic").play();
+
+  document.getElementById("content").innerHTML=`
+  <div style="max-width:900px;margin:auto;background:white;color:black;padding:30px;border-radius:20px;">
+
+  <h2 style="color:#ff0066;">💖 Deva & Dorothy – Love Album 💖</h2>
+
+  <p>
+  Our journey from Pallavaram station to forever…
+  Every moment written by destiny.
+  </p>
+
+  <h3 style="color:#ff0066;">📖 Our Full Love Album</h3>
+
+  <iframe src="love-album.pdf" width="100%" height="600px" style="border:none;"></iframe>
+
+  </div>
+  `;
 }
 
+/* Gift 2 */
 function gift2(){
-  document.getElementById("content").innerHTML =
-  `
-  <h3>Our Songs</h3>
-  <video width="400" controls autoplay>
-  <source src="video1.mp4" type="video/mp4">
-  </video>
+  document.getElementById("content").innerHTML=`
+  <div style="
+    background:url('poem-bg.jpg');
+    background-size:cover;
+    background-position:center;
+    padding:100px;
+    border-radius:20px;
+    max-width:900px;
+    margin:auto;
+    color:white;
+    text-shadow:3px 3px 20px black;
+  ">
+
+  <h2 style="font-size:36px;">🌹 To My Dorothy 🌹</h2>
+
+  <p style="font-size:22px;line-height:2;">
+  In a crowded station, fate made us meet,<br>
+  One orange saree… my heart skipped a beat.<br><br>
+
+  In your silence, I found my peace,<br>
+  In your smile, all my worries cease.<br><br>
+
+  Even when distance tried to divide,<br>
+  Love stayed quietly by our side.<br><br>
+
+  February healed what pain had torn,<br>
+  Our love restarted, reborn.<br><br>
+
+  And on January 26, beneath God’s sky,<br>
+  We promised a forever — you and I.<br><br>
+
+  Dorothy…<br>
+  You are not just my love.<br>
+  You are my home. ❤️
+  </p>
+
+  </div>
   `;
 }
 
+/* Gift 3 */
 function gift3(){
-  document.getElementById("content").innerHTML =
-  `
-  <img src="pic1.jpg">
-  <img src="pic2.jpg">
-  <img src="pic3.jpg">
+
+  // Stop background music
+  document.getElementById("bgMusic").pause();
+
+  document.getElementById("content").innerHTML=`
+  <h3>🎬 Our Beautiful Memories 🎬</h3>
+
+<div style="
+  width:330px;
+  margin:40px auto;
+  padding:12px;
+  background:black;
+  border-radius:40px;
+  box-shadow:0 0 40px pink;
+">
+<video autoplay  loop playsinline
+       style="width:100%;max-width:320px;aspect-ratio:9/16;
+       object-fit:cover;border-radius:30px;box-shadow:0 0 40px #ff0066;">
+  <source src="video1.mp4" type="video/mp4">
+</video>
+</div>
   `;
 }
+
 </script>
 
 </body>
