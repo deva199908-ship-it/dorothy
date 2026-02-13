@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Deva ❤️ Dorothy</title>
+<style>
+body {
+  margin:0;
+  font-family: Arial;
+  text-align:center;
+  background:black;
+  color:white;
+}
+
+button {
+  padding:15px 30px;
+  font-size:20px;
+  margin:10px;
+  cursor:pointer;
+  border:none;
+  border-radius:10px;
+}
+
+#yesBtn {
+  font-size:28px;
+  background:red;
+  color:white;
+}
+
+#noBtn {
+  font-size:12px;
+  background:gray;
+}
+
+.hidden { display:none; }
+
+img {
+  width:300px;
+  border-radius:15px;
+  margin:10px;
+}
+</style>
+</head>
+
+<body>
+
+<h1>❤️ Dorothy ❤️</h1>
+<h2>If you love me?</h2>
+
+<button id="yesBtn" onclick="showMain()">YES</button>
+<button id="noBtn" onmouseover="moveNo()">NO</button>
+
+<div id="main" class="hidden">
+
+<h2>💍 Engaged on January 26, 2026 💍</h2>
+<p>From Pallavaram Railway Station to Forever...</p>
+
+<button onclick="gift1()">🎁 Gift 1</button>
+<button onclick="gift2()">🎵 Gift 2</button>
+<button onclick="gift3()">📸 Gift 3</button>
+
+<div id="content"></div>
+
+</div>
+
+<script>
+function moveNo(){
+  document.getElementById("noBtn").style.position="absolute";
+  document.getElementById("noBtn").style.top=Math.random()*400+"px";
+  document.getElementById("noBtn").style.left=Math.random()*400+"px";
+}
+
+function showMain(){
+  document.getElementById("main").classList.remove("hidden");
+}
+
+function gift1(){
+  document.getElementById("content").innerHTML =
+  "<h3>Your Love Letter Here</h3><p>Paste your 3 paragraphs here...</p>";
+}
+
+function gift2(){
+  document.getElementById("content").innerHTML =
+  `
+  <h3>Our Songs</h3>
+  <video width="400" controls autoplay>
+  <source src="video1.mp4" type="video/mp4">
+  </video>
+  `;
+}
+
+function gift3(){
+  document.getElementById("content").innerHTML =
+  `
+  <img src="pic1.jpg">
+  <img src="pic2.jpg">
+  <img src="pic3.jpg">
+  `;
+}
+</script>
+
+</body>
+</html>
